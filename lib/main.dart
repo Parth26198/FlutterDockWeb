@@ -16,9 +16,8 @@ class MyApp extends StatelessWidget {
         body: Stack(
           children: [
             Positioned.fill(
-              // Background Image
               child: Image.network(
-                'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731151515/macimage_era5dl.jpg',
+                'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/macos-big-sur-apple-layers-fluidic-colorful-wwdc-stock-3440x1440-1455.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -27,17 +26,15 @@ class MyApp extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Dock(
-                  //Icons Images
                   items: const [
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135122/3d-mac-os-finder_nfxqni.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731137370/macMonitor_zqiv68.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731138138/termi_jvwcru.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135186/mail_p0p35q.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135054/macos-messages_lgb0ih.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135311/macos-calendar_z7xyj2.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135581/notes_be94gn.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135379/music_hj6hvj.png',
-                    'https://res.cloudinary.com/dprkiyc1j/image/upload/v1731135438/reminders_fwlewx.png',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/calendar-2021-04-29.png',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/Apple_Messages-1024.webp',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/purepng.com-appstore-iconsymbolsiconsapple-iosiosios-8-iconsios-8-721522596009rinhz.png',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/google-chrome-icon-1.png',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/safari_macos_bigsur_icon_189770.webp',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/notes_be94gn.png',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/music_hj6hvj.png',
+                    'https://raw.githubusercontent.com/Parth26198/FlutterDock/refs/heads/main/reminders_fwlewx.png',
                   ],
                   builder: (url) {
                     return Container(
@@ -87,13 +84,10 @@ class _DockState<T> extends State<Dock<T>> with SingleTickerProviderStateMixin {
     super.initState();
     _items = List.from(widget.items);
     _hoveringIndex = null;
-
-    /// Using AnimationController for sliding icons animation
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
@@ -127,12 +121,8 @@ class _DockState<T> extends State<Dock<T>> with SingleTickerProviderStateMixin {
 
   Widget _buildDraggableItem(int index) {
     return GestureDetector(
-      /// Using GestureDetector
-      /// when we just click on the icon nothing will happen,
-      /// when we drag the icon it will start anumation.
       onTap: () {
         _controller.forward();
-
         _startDrag(index);
       },
       child: Draggable<int>(
@@ -150,9 +140,7 @@ class _DockState<T> extends State<Dock<T>> with SingleTickerProviderStateMixin {
             child: widget.builder(_items[index]),
           ),
         ),
-        // Icon out Dock size shrink.
         childWhenDragging: const SizedBox.shrink(),
-        // when drag complete or cancle hoveringIndex Value Set to null
         onDragCompleted: () {
           setState(() {
             _hoveringIndex = null;
@@ -165,8 +153,6 @@ class _DockState<T> extends State<Dock<T>> with SingleTickerProviderStateMixin {
         },
         child: DragTarget<int>(
           onAcceptWithDetails: (details) {
-            /// seting old and new index
-            /// Index or data value changes when we select or drag the Icon
             setState(() {
               final oldIndex = details.data;
               if (oldIndex != index) {
@@ -190,8 +176,6 @@ class _DockState<T> extends State<Dock<T>> with SingleTickerProviderStateMixin {
           builder: (context, candidateData, rejectedData) {
             final isHovering = _hoveringIndex == index;
             final double gapPadding = isHovering ? 32.0 : 0.0;
-
-            /// Setting Animation Padding to create the gap between two icons
             return AnimatedPadding(
               padding: EdgeInsets.only(left: gapPadding),
               duration: const Duration(milliseconds: 200),
@@ -205,7 +189,6 @@ class _DockState<T> extends State<Dock<T>> with SingleTickerProviderStateMixin {
 
   void _startDrag(int index) {
     _controller.forward();
-
     setState(() {});
   }
 }
